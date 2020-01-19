@@ -1,8 +1,16 @@
 #!/bin/bash
 
-# update_profile.sh
-# update_profile.sh <Image URL>
-# update_profile.sh <key> <value>
+# Description:
+#   This script is used to create or update the profile.
+#
+# Usage:
+#   update_profile.sh
+#   update_profile.sh <Image URL>
+#   update_profile.sh <key> <value>
+#
+# History:
+#   v1.0  2020-01-19  charles.shih  Init version
+
 
 function create() {
 	# Show the overwrite information
