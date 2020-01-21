@@ -36,3 +36,6 @@ cp ./source/template.xml $WORKSPACE/template.xml
 sed -i "s#{DOMAIN_NAME}}#$IMAGE_LABEL#" $WORKSPACE/template.xml
 sed -i "s#{{IMAGE_FILE}}#$IMAGE_FILE#" $WORKSPACE/template.xml
 sudo virsh define $WORKSPACE/template.xml
+
+# Update profile
+$(dirname $0)/update_profile.sh DOMAIN_NAME $IMAGE_LABEL
