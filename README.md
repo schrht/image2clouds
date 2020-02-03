@@ -11,12 +11,12 @@ Deal with Red Hat Enterprise Linux Golden Image for public cloud usage.
 4. [Optional] Customize image for platform testing (1/2)  
 `customize_image_plattest.sh`
 5. [Optional] Run VM  
-`define_vm.sh`
-`start_vm.sh`
-`get_vm_info.sh`
+`define_vm.sh`  
+`start_vm.sh`  
+`get_vm_info.sh`  
 6. [Optional] Customize image for platform testing (2/2)  
-`vm_execute.sh 'cd /root/platform-test/init && ./run.sh'`
+`vm_execute.sh 'cd /root/platform-test/init && ./run.sh'`  
 `vm_execute.sh 'cd /root/platform-test && ./run.sh'`
 7. [Optional] Stop VM  
-`stop_vm.sh`
+`stop_vm.sh`  
 `undefine_vm.sh`

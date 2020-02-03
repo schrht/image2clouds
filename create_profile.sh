@@ -51,7 +51,7 @@ echo -e "\nIf you need a correction, press <Ctrl+C> in 30 seconds... Or press <E
 read -t 30
 
 # Write profile
-echo -e "\nWriting to the target file ($pf)..."
+echo -e "Writing to the target file ($pf)..."
 echo "IMAGE_URL=$image_url" >>$pf
 echo "IMAGE_NAME=$image_name" >>$pf
 echo "IMAGE_LABEL=$image_label" >>$pf
