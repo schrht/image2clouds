@@ -5,6 +5,7 @@
 #
 # History:
 #   v1.0  2020-01-21  charles.shih  Init version
+#   v1.1  2020-02-03  charles.shih  Support updating profile with empty values
 
 # Load profile and verify the veribles
 source ./profile
@@ -33,4 +34,4 @@ echo -e "Undefining the VM..."
 sudo virsh undefine $DOMAIN_NAME
 
 # Update profile
-$(dirname $0)/update_profile.sh DOMAIN_NAME "N/A"
+$(dirname $0)/update_profile.sh DOMAIN_NAME ""

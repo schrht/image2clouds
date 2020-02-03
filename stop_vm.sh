@@ -5,6 +5,7 @@
 #
 # History:
 #   v1.0  2020-01-21  charles.shih  Init version
+#   v1.1  2020-02-03  charles.shih  Support updating profile with empty values
 
 # Load profile and verify the veribles
 source ./profile
@@ -29,7 +30,7 @@ if [ "$state" != "running" ]; then
 fi
 
 # Update profile
-$(dirname $0)/update_profile.sh DOMAIN_IP "N/A"
+$(dirname $0)/update_profile.sh DOMAIN_IP ""
 
 # Stop VM
 echo -e "Stopping the VM..."
