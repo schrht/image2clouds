@@ -4,7 +4,8 @@
 #   Define the VM from the $IMAGE_FILE.
 #
 # History:
-#   v1.0  2020-01-20  charles.shih  Init version
+#   v1.0    2020-01-20  charles.shih  Init version
+#   v1.0.1  2020-02-03  charles.shih  Bugfix for IMAGE_LABEL replacement
 
 # Load profile and verify the veribles
 source ./profile
@@ -33,7 +34,7 @@ fi
 # Define the VM
 echo -e "\nDefining the VM..."
 cp ./source/template.xml $WORKSPACE/template.xml
-sed -i "s#{DOMAIN_NAME}}#$IMAGE_LABEL#" $WORKSPACE/template.xml
+sed -i "s#{{DOMAIN_NAME}}#$IMAGE_LABEL#" $WORKSPACE/template.xml
 sed -i "s#{{IMAGE_FILE}}#$IMAGE_FILE#" $WORKSPACE/template.xml
 sudo virsh define $WORKSPACE/template.xml
 
