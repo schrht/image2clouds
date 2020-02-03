@@ -5,7 +5,7 @@
 #
 # History:
 #   v1.0    2020-01-19  charles.shih  Init version
-#   v1.0.1  2020-01-19  charles.shih  Bugfix for URL replacement
+#   v1.0.1  2020-02-03  charles.shih  Bugfix for URL replacement
 
 # Load profile and verify the veribles
 source ./profile
