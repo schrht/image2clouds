@@ -4,7 +4,8 @@
 #   Process the $IMAGE_FILE for general public cloud usage.
 #
 # History:
-#   v1.0  2020-01-19  charles.shih  Init version
+#   v1.0    2020-01-19  charles.shih  Init version
+#   v1.0.1  2020-01-19  charles.shih  Bugfix for URL replacement
 
 # Load profile and verify the veribles
 source ./profile
@@ -39,7 +40,7 @@ virt-customize -a $IMAGE_FILE --ssh-inject root:string:"$(ssh-keygen -y -f $SSH_
 # Setup dnf repo
 echo -e "Setting up dnf repo..."
 cp ./source/rhel.repo $WORKSPACE/
-sed -i "s#{{REPO_URL_ROOT}}#$repo_url_root#" $WORKSPACE/rhel.repo
+sed -i "s#{{REPO_BASEURL}}#$REPO_BASEURL#" $WORKSPACE/rhel.repo
 virt-customize -a $IMAGE_FILE --copy-in $WORKSPACE/rhel.repo:/etc/yum.repos.d/
 
 # Reset SELinux label
