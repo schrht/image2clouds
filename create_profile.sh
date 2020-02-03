@@ -10,6 +10,7 @@
 # History:
 #   v1.0  2020-01-19  charles.shih  Init version
 #   v2.0  2020-02-03  charles.shih  Split create_profile and update_profile
+#   v2.1  2020-02-03  charles.shih  Add additional configuration
 
 pf=./profile
 
@@ -57,5 +58,9 @@ echo "IMAGE_LABEL=$image_label" >>$pf
 echo "WORKSPACE=$workspace" >>$pf
 echo "IMAGE_FILE=$image_file" >>$pf
 echo "REPO_BASEURL=$repo_baseurl" >>$profile
+
+# Append additional configuation
+echo "ROOT_PASSWD=" >>$pf
+echo "SSH_IDENTITY=" >>$pf
 
 exit 0
