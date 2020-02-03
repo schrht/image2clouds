@@ -57,7 +57,7 @@ echo "IMAGE_NAME=$image_name" >>$pf
 echo "IMAGE_LABEL=$image_label" >>$pf
 echo "WORKSPACE=$workspace" >>$pf
 echo "IMAGE_FILE=$image_file" >>$pf
-echo "REPO_BASEURL=$repo_baseurl" >>$profile
+echo "REPO_BASEURL=$repo_baseurl" >>$pf
 
 # Append additional configuation
 echo "ROOT_PASSWD=" >>$pf
