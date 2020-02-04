@@ -6,6 +6,7 @@
 # History:
 #   v1.0    2020-02-03  charles.shih  Init version
 #   v1.0.1  2020-02-03  charles.shih  Bugfix for image file name
+#   v1.1    2020-02-04  charles.shih  Define new image size
 
 # Load profile and verify the veribles
 source ./profile
@@ -16,14 +17,15 @@ source ./profile
 virt-customize -V >/dev/null || exit 1
 
 # Enlarge the image
-echo -e "\nEnlarge the image to 20 GiB..."
+size=30
+echo -e "\nEnlarge the image to $size GiB..."
 fsize=$(ls -l $IMAGE_FILE | awk '{print $5}')
-if [ "$fsize" -lt "$((20 * 1024 * 1024 * 1024))" ]; then
-	qemu-img create -f qcow2 -o preallocation=metadata $WORKSPACE/newdisk.qcow2 20G || exit 1
+if [ "$fsize" -lt "$(($size * 1024 * 1024 * 1024))" ]; then
+	qemu-img create -f qcow2 -o preallocation=metadata $WORKSPACE/newdisk.qcow2 ${size}G || exit 1
 	virt-resize --expand /dev/sda1 $IMAGE_FILE $WORKSPACE/newdisk.qcow2 || exit 1
 	mv -f $WORKSPACE/newdisk.qcow2 $IMAGE_FILE || exit 1
 else
-	echo -e "Already enlarged to 20 GiB, skip this operation."
+	echo -e "Already enlarged to $size GiB, skip this operation."
 fi
 
 # Place git repos
