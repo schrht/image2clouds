@@ -7,6 +7,7 @@
 #   v1.0    2020-02-03  charles.shih  Init version
 #   v1.0.1  2020-02-03  charles.shih  Bugfix for image file name
 #   v1.1    2020-02-04  charles.shih  Define new image size
+#   v1.2    2020-02-04  charles.shih  Change logic of placing repos
 
 # Load profile and verify the veribles
 source ./profile
@@ -29,21 +30,30 @@ else
 fi
 
 # Place git repos
-echo -e "\nGetting git repos..."
-if [ ! -e "./platform-test" ]; then
-	git clone git://git.engineering.redhat.com/users/darcari/platform-test.git || exit 1
-fi
-if [ ! -e "./linus" ]; then
-	git clone git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git linus || exit 1
-fi
-read -t 30 -p "Run 'git pull' for repo \"platform-test\" [y/N]? (30s) " answer
-[ "$answer" = "y" ] && bash -c "cd ./platform-test && git pull" || echo
-read -t 30 -p "Run 'git pull' for repo \"linus\" [y/N]? (30s) " answer
-[ "$answer" = "y" ] && bash -c "cd ./linus && git pull" || echo
+function place_repo() {
+	local repo_name=$1
+	local repo_url=$2
 
-echo -e "\nPlacing git repos..."
-virt-customize -a $IMAGE_FILE --copy-in ./platform-test:/root/
-virt-customize -a $IMAGE_FILE --copy-in ./linus:/root/
+	read -t 30 -p "Place \"$repo_name\" into image [Y/n]? (in 30s) " answer
+	[ "$answer" = "n" ] && return 0 || echo
+
+	if [ -d "./$repo_name" ]; then
+		read -t 30 -p "Run 'git pull' for \"$repo_name\" [y/N]? (in 30s) " answer
+		[ "$answer" = "y" ] && bash -c "cd ./$repo_name && git pull" || echo
+	else
+		echo "Cloning repo..."
+		git clone -c http.sslVerify=false $repo_url $repo_name || exit 1
+	fi
+
+	echo "Placing repo..."
+	virt-customize -a $IMAGE_FILE --copy-in ./$repo_name:/root/ || exit 1
+
+	return 0
+}
+
+place_repo platform-test git://git.engineering.redhat.com/users/darcari/platform-test.git
+place_repo linus git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+place_repo kernel-rhel https://code.engineering.redhat.com/gerrit/kernel-rhel
 
 # Reset SELinux label
 echo -e "\nResetting SELinux label..."
