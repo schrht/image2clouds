@@ -7,10 +7,12 @@
 #   v1.0  2020-01-21  charles.shih  Init version
 #   v1.1  2020-02-03  charles.shih  Support updating profile with empty values
 #   v1.2  2020-02-03  charles.shih  Change the image file's permission back
+#   v1.3  2020-02-04  charles.shih  Add checkpoint for $IMAGE_FILE
 
 # Load profile and verify the veribles
 source ./profile
 [ -z "$DOMAIN_NAME" ] && echo "\$DOMAIN_NAME is essintial but not existing, exit." && exit 1
+[ -z "$IMAGE_FILE" ] && echo "\$IMAGE_FILE is essintial but not existing, exit." && exit 1
 
 # Get sudo access
 sudo bash -c : || exit 1
