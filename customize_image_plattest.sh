@@ -8,6 +8,7 @@
 #   v1.0.1  2020-02-03  charles.shih  Bugfix for image file name
 #   v1.1    2020-02-04  charles.shih  Define new image size
 #   v1.2    2020-02-04  charles.shih  Change logic of placing repos
+#   v1.3    2020-02-04  charles.shih  Change git pull as default
 
 # Load profile and verify the veribles
 source ./profile
@@ -35,11 +36,14 @@ function place_repo() {
 	local repo_url=$2
 
 	read -t 30 -p "Place \"$repo_name\" into image [Y/n]? (in 30s) " answer
-	[ "$answer" = "n" ] && return 0 || echo
+	echo
+	[ "$answer" = "n" ] && return 0
 
 	if [ -d "./$repo_name" ]; then
-		read -t 30 -p "Run 'git pull' for \"$repo_name\" [y/N]? (in 30s) " answer
-		[ "$answer" = "y" ] && bash -c "cd ./$repo_name && git pull" || echo
+		echo "This repo has already been cloned to the local."
+		read -t 30 -p "Run 'git pull' for this repo [Y/n]? (in 30s) " answer
+		echo
+		[ "$answer" != "n" ] && bash -c "cd ./$repo_name && git pull"
 	else
 		echo "Cloning repo..."
 		git clone -c http.sslVerify=false $repo_url $repo_name || exit 1
