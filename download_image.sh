@@ -5,6 +5,7 @@
 #
 # History:
 #   v1.0  2020-01-19  charles.shih  Init version
+#   v1.1  2020-02-05  charles.shih  Change the overwrite as default
 
 # Load profile and verify the veribles
 source ./profile
@@ -23,7 +24,12 @@ if [ ! -e ${IMAGE_FILE}.origin ]; then
 	md5sum -c ${IMAGE_FILE}.MD5SUM || exit 1
 	cp $IMAGE_FILE ${IMAGE_FILE}.origin
 else
-	cp -i ${IMAGE_FILE}.origin $IMAGE_FILE
+	if [ -f "$IMAGE_FILE" ]; then
+		read -t 30 -p "The image file already exists, overwirte [Y/n]? (in 30s) " answer
+		echo
+		[ "$answer" = "n" ] && exit 0		
+	fi
+	cp -f ${IMAGE_FILE}.origin $IMAGE_FILE
 fi
 
 exit 0
