@@ -30,3 +30,5 @@ fi
 # Execute in VM
 echo "Executing command: $@"
 ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i $SSH_IDENTITY root@$DOMAIN_IP "$@"
+
+exit 0
