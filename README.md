@@ -4,7 +4,6 @@ Deal with Red Hat Enterprise Linux Golden Image for public cloud usage.
 # Usage
 
 ## Prepare the environment
-
 You can run `./setup.sh` to prepare the environment, before that you need to get your AK/SK from Alibaba Cloud.
 Example: AK=LTAIxxxxxxxxxxxx SK=HOBIjfxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -58,11 +57,11 @@ Please enter endpoint:http://oss-cn-beijing.aliyuncs.com
 ```
 
 ## Steps for image processing
-
 1. Create profile  
 `./create_profile.sh [URL of the Golden Image]`  
 URL example:  
-`http://download.eng.pek2.redhat.com/pub/nightly/RHEL-8.2.0-20200203.n.0/compose/BaseOS/x86_64/images/rhel-guest-image-8.2-181.x86_64.qcow2`
+`http://download.eng.pek2.redhat.com/pub/nightly/RHEL-8.2.0-20200203.n.0/compose/BaseOS/x86_64/images/rhel-guest-image-8.2-181.x86_64.qcow2`  
+**Note:** Now you have a chance to review and update parameters in `./profile`.
 2. Download golden image  
 `./download_image.sh`
 3. Process image for general cloud usage  
@@ -79,5 +78,14 @@ URL example:
 7. [Optional] Stop VM  
 `./stop_vm.sh`  
 `./undefine_vm.sh`
+8. Upload the image to Alibaba Cloud
+`./upload_image.sh`
+9. [Optional] Change the image size from 40G to 100G (for platform_test)
+`./update_profile.sh ALIYUN_IMAGE_SIZE 100`
+10. Register the image on Alibaba Cloud
+`./register_image.sh`
 
+## Run all-in-one scripts
 
+### For Platform testing
+`sudo ./i2c_platform_test.sh <URL of the Golden Image>`
