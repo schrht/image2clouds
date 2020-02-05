@@ -13,7 +13,6 @@
 
 # Load profile and verify the veribles
 source ./profile
-[ -z "$WORKSPACE" ] && echo "\$WORKSPACE is essintial but not existing, exit." && exit 1
 [ -z "$IMAGE_FILE" ] && echo "\$IMAGE_FILE is essintial but not existing, exit." && exit 1
 
 # Check utilities
