@@ -9,6 +9,7 @@
 #   v1.1    2020-02-04  charles.shih  Define new image size
 #   v1.2    2020-02-04  charles.shih  Change logic of placing repos
 #   v1.3    2020-02-04  charles.shih  Change git pull as default
+#   v1.4    2020-02-05  charles.shih  Adjust image size to 8GiB
 
 # Load profile and verify the veribles
 source ./profile
@@ -19,16 +20,7 @@ source ./profile
 virt-customize -V >/dev/null || exit 1
 
 # Enlarge the image
-size=30
-echo -e "\nEnlarge the image to $size GiB..."
-fsize=$(ls -l $IMAGE_FILE | awk '{print $5}')
-if [ "$fsize" -lt "$(($size * 1024 * 1024 * 1024))" ]; then
-	qemu-img create -f qcow2 -o preallocation=metadata $WORKSPACE/newdisk.qcow2 ${size}G || exit 1
-	virt-resize --expand /dev/sda1 $IMAGE_FILE $WORKSPACE/newdisk.qcow2 || exit 1
-	mv -f $WORKSPACE/newdisk.qcow2 $IMAGE_FILE || exit 1
-else
-	echo -e "Already enlarged to $size GiB, skip this operation."
-fi
+$(dirname $0)/expand_image_disk.sh 8
 
 # Place git repos
 function place_repo() {
