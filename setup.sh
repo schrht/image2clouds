@@ -6,6 +6,7 @@
 # History:
 #   v1.0  2020-02-04  charles.shih  Init version
 #   v1.1  2020-02-05  charles.shih  Setup Aliyun CLI and OSSUitl
+#   v1.2  2020-02-05  charles.shih  Grant permission to the image path
 
 # Get sudo access
 sudo bash -c : || exit 1
@@ -30,6 +31,7 @@ done
 
 # Configure libvirt
 echo -e "\nConfiguring libvirt..."
+sudo chmod a+rwx /var/lib/libvirt/images/
 #sudo sed -i 's/^#user = "root"/user = "root"/' /etc/libvirt/qemu.conf
 #sudo sed -i 's/^#group = "root"/group = "root"/' /etc/libvirt/qemu.conf
 sudo systemctl restart libvirtd
