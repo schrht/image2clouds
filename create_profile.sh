@@ -11,12 +11,13 @@
 #   v1.0  2020-01-19  charles.shih  Init version
 #   v2.0  2020-02-03  charles.shih  Split create_profile and update_profile
 #   v2.1  2020-02-03  charles.shih  Add additional configuration
+#   v2.2  2020-02-05  charles.shih  Add Aliyun parameters
 
 pf=./profile
 
 # Show the overwrite information
 if [ -f "$pf" ]; then
-	read -p "Overwrite target file ($pf) [y/N]?" answer
+	read -p "Overwrite target file ($pf) [y/N]? " answer
 	[ "$answer" != "y" ] && exit 0
 	: >$pf
 fi
@@ -51,16 +52,23 @@ echo -e "\nIf you need a correction, press <Ctrl+C> in 30 seconds... Or press <E
 read -t 30
 
 # Write profile
-echo -e "Writing to the target file ($pf)..."
-echo "IMAGE_URL=$image_url" >>$pf
-echo "IMAGE_NAME=$image_name" >>$pf
-echo "IMAGE_LABEL=$image_label" >>$pf
-echo "WORKSPACE=$workspace" >>$pf
-echo "IMAGE_FILE=$image_file" >>$pf
-echo "REPO_BASEURL=$repo_baseurl" >>$pf
+echo -e "Writing to $pf..."
+$(dirname $0)/update_profile.sh IMAGE_URL $image_url
+$(dirname $0)/update_profile.sh IMAGE_NAME $image_name
+$(dirname $0)/update_profile.sh IMAGE_LABEL $image_label
+$(dirname $0)/update_profile.sh WORKSPACE $workspace
+$(dirname $0)/update_profile.sh IMAGE_FILE $image_file
+$(dirname $0)/update_profile.sh REPO_BASEURL $repo_baseurl
 
-# Append additional configuation
-echo "ROOT_PASSWD=" >>$pf
-echo "SSH_IDENTITY=" >>$pf
+# Additional parameters
+$(dirname $0)/update_profile.sh ROOT_PASSWD
+$(dirname $0)/update_profile.sh SSH_IDENTITY
+
+# Cloud parameters
+$(dirname $0)/update_profile.sh ALIYUN_REGION cn-beijing
+$(dirname $0)/update_profile.sh ALIYUN_BUCKET rhel-test
+$(dirname $0)/update_profile.sh ALIYUN_FOLDER $image_label
+$(dirname $0)/update_profile.sh ALIYUN_IMAGE_SIZE 40
+$(dirname $0)/update_profile.sh ALIYUN_IMAGE_DESC '"Created by image2clouds."'
 
 exit 0
