@@ -12,6 +12,7 @@
 #   v2.0  2020-02-03  charles.shih  Split create_profile and update_profile
 #   v2.1  2020-02-03  charles.shih  Add additional configuration
 #   v2.2  2020-02-05  charles.shih  Add Aliyun parameters
+#   v2.3  2020-02-06  charles.shih  Fix a bug while profile does not exist
 
 pf=./profile
 
@@ -20,6 +21,8 @@ if [ -f "$pf" ]; then
 	read -p "Overwrite target file ($pf) [y/N]? " answer
 	[ "$answer" != "y" ] && exit 0
 	: >$pf
+else
+	touch $pf || exit 1
 fi
 
 # Get image URL
