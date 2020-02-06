@@ -6,6 +6,7 @@
 # History:
 #   v1.0    2020-01-20  charles.shih  Init version
 #   v1.0.1  2020-02-03  charles.shih  Bugfix for IMAGE_LABEL replacement
+#   v1.1    2020-02-07  charles.shih  Dynamically determine the emulator
 
 # Load profile and verify the veribles
 source ./profile
@@ -31,11 +32,22 @@ if [ "$state" != "undefined" ]; then
 	exit 1
 fi
 
+# Determine emulator
+if [ -f /usr/bin/qemu-kvm ]; then
+	qemu_kvm_bin=/usr/bin/qemu-kvm
+elif [ -f /usr/libexec/qemu-kvm ]; then
+	qemu_kvm_bin=/usr/libexec/qemu-kvm
+else
+	echo "Cannot find the emulator."
+	exit 1
+fi
+
 # Define the VM
 echo -e "\nDefining the VM..."
 cp ./source/template.xml $WORKSPACE/template.xml
 sed -i "s#{{DOMAIN_NAME}}#$IMAGE_LABEL#" $WORKSPACE/template.xml
 sed -i "s#{{IMAGE_FILE}}#$IMAGE_FILE#" $WORKSPACE/template.xml
+sed -i "s#{{EMULATOR}}#$qemu_kvm_bin#" $WORKSPACE/template.xml
 sudo virsh define $WORKSPACE/template.xml
 
 # Update profile
