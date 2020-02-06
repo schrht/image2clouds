@@ -8,6 +8,7 @@
 #   v1.1    2020-02-05  charles.shih  Setup Aliyun CLI and OSSUitl
 #   v1.2    2020-02-05  charles.shih  Grant permission to the image path
 #   v1.2.1  2020-02-05  charles.shih  Update some prompts and a typo
+#   v1.3    2020-02-05  charles.shih  Add package qemu-system-x86 to checklist
 
 # Get sudo access
 sudo bash -c : || exit 1
@@ -20,6 +21,7 @@ libguestfs
 libguestfs-tools-c
 libvirt
 libvirt-client
+qemu-system-x86
 "
 
 for name in $packages; do
