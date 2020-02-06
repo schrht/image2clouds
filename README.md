@@ -88,4 +88,6 @@ URL example:
 ## Run all-in-one scripts
 
 ### For Platform testing
-`sudo ./i2c_platform_test.sh <URL of the Golden Image>`
+`./i2c_platform_test.sh <URL of the Golden Image>`
+
+**Note:** It is recommended that you configure your account to not require a sudo password.
