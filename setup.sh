@@ -4,9 +4,10 @@
 #   Prepare the environment.
 #
 # History:
-#   v1.0  2020-02-04  charles.shih  Init version
-#   v1.1  2020-02-05  charles.shih  Setup Aliyun CLI and OSSUitl
-#   v1.2  2020-02-05  charles.shih  Grant permission to the image path
+#   v1.0    2020-02-04  charles.shih  Init version
+#   v1.1    2020-02-05  charles.shih  Setup Aliyun CLI and OSSUitl
+#   v1.2    2020-02-05  charles.shih  Grant permission to the image path
+#   v1.2.1  2020-02-05  charles.shih  Update some prompts and a typo
 
 # Get sudo access
 sudo bash -c : || exit 1
@@ -51,12 +52,12 @@ if [ "$?" != "0" ]; then
 	popd
 fi
 
-read -t 30 -p "Configure Access Key for Aliyun CLI now [y/N]? (in 30s) " answer
+read -t 30 -p "Configure credentials for Aliyun CLI now [y/N]? (in 30s) " answer
 [ "$answer" = "y" ] && aliyun configure
 
 # Setup Aliyun OSSUtil
 # Ref. https://www.alibabacloud.com/help/doc-detail/50452.html
-echo -e "\nChecking Aliyun OSSUitl..."
+echo -e "\nChecking Aliyun OSSUtil..."
 which ossutil64
 if [ "$?" != "0" ]; then
 	mkdir -p $HOME/aliyun
@@ -67,7 +68,7 @@ if [ "$?" != "0" ]; then
 	popd
 fi
 
-read -t 30 -p "Configure Access Key for Aliyun OSSUtil now [y/N]? (in 30s) " answer
+read -t 30 -p "Configure credentials for Aliyun OSSUtil now [y/N]? (in 30s) " answer
 [ "$answer" = "y" ] && ossutil64 config
 
 exit 0
