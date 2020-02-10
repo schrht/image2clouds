@@ -8,6 +8,7 @@
 #
 # History:
 #   v1.0  2020-02-05  charles.shih  Init version
+#   v1.1  2020-02-10  Update ALIYUN_BUCKET and ALIYUN_REGION in profile
 
 set -e
 
@@ -18,9 +19,14 @@ if [ -z "$1" ]; then
 fi
 
 ./create_profile.sh $1
+./update_profile.sh ALIYUN_IMAGE_SIZE 100
+./update_profile.sh ALIYUN_BUCKET rhel-platform
+./update_profile.sh ALIYUN_REGION us-east-1
+
 ./download_image.sh
 ./process_image.sh
 ./customize_platform_test.sh
+
 ./define_vm.sh
 ./start_vm.sh
 ./get_vm_info.sh
@@ -28,8 +34,8 @@ fi
 ./vm_execute.sh 'cd /root/platform-test && ./run.sh'
 ./stop_vm.sh
 ./undefine_vm.sh
+
 ./upload_image.sh
-./update_profile.sh ALIYUN_IMAGE_SIZE 100
 ./register_image.sh
 
 exit 0
