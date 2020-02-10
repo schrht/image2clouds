@@ -5,6 +5,7 @@
 #
 # History:
 #   v1.0  2020-02-10  charles.shih  Init version
+#   v1.1  2020-02-10  charles.shih  Show N/A if $DOMAIN_NAME unavailable
 
 # Parse parameters
 if [ "$1" != "" ] && [ "$1" != "running" ] && [ "$1" != "shutoff" ] && [ "$1" != "undefined" ]; then
@@ -29,6 +30,6 @@ fi
 : ${state:=undefined}
 
 # Show VM state
-echo "Name: $DOMAIN_NAME  State: $state  Want: $1"
+echo "Name: ${DOMAIN_NAME:-"N/A"}  State: $state  Want: $1"
 
 [ "$state" = "$1" ] && exit 0 || exit 1
