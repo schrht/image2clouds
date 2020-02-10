@@ -7,6 +7,7 @@
 #   v1.0    2020-01-20  charles.shih  Init version
 #   v1.0.1  2020-02-03  charles.shih  Bugfix for IMAGE_LABEL replacement
 #   v1.1    2020-02-07  charles.shih  Dynamically determine the emulator
+#   v1.2    2020-02-10  charles.shih  Update VM state checking logic
 
 # Load profile and verify the veribles
 source ./profile
@@ -21,16 +22,10 @@ sudo bash -c : || exit 1
 sudo virsh --version >/dev/null || exit 1
 
 # Check VM state
-state=$(sudo virsh list --all | grep -w "\s$IMAGE_LABEL\s" | awk '{print $3$4}')
-echo -e "Name: $IMAGE_LABEL Status: ${state:=undefined}"
+$(dirname $0)/check_vm_state.sh shutoff && exit 0
 
-if [ "$state" != "undefined" ]; then
-	echo "The VM alreay exists, the following commands may help:"
-	echo "sudo virsh shutdown $IMAGE_LABEL"
-	echo "sudo virsh destroy $IMAGE_LABEL"
-	echo "sudo virsh undefine $IMAGE_LABEL"
-	exit 1
-fi
+$(dirname $0)/check_vm_state.sh undefined
+[ "$?" != "0" ] && echo "ERROR: Wrong VM state." && exit 1
 
 # Determine emulator
 if [ -f /usr/bin/qemu-kvm ]; then

@@ -5,6 +5,7 @@
 #
 # History:
 #   v1.0  2020-01-20  charles.shih  Init version
+#   v1.1  2020-02-10  charles.shih  Update VM state checking logic
 
 # Load profile and verify the veribles
 source ./profile
@@ -17,16 +18,10 @@ sudo bash -c : || exit 1
 sudo virsh --version >/dev/null || exit 1
 
 # Check VM state
-state=$(sudo virsh list --all | grep -w "\s$DOMAIN_NAME\s" | awk '{print $3$4}')
-echo -e "Name: $DOMAIN_NAME Status: ${state:=undefined}"
+$(dirname $0)/check_vm_state.sh running && exit 0
 
-if [ "$state" != "shutoff" ]; then
-	echo "The VM is not in shutoff state, the following commands may help:"
-	echo "sudo virsh shutdown $DOMAIN_NAME"
-	echo "sudo virsh destroy $DOMAIN_NAME"
-	echo "sudo virsh undefine $DOMAIN_NAME"
-	exit 1
-fi
+$(dirname $0)/check_vm_state.sh shutoff
+[ "$?" != "0" ] && echo "ERROR: Wrong VM state." && exit 1
 
 # Start VM
 echo -e "Starting the VM..."
