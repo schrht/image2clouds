@@ -6,12 +6,23 @@
 # History:
 #   v1.0  2020-01-19  charles.shih  Init version
 #   v1.1  2020-02-05  charles.shih  Change the overwrite as default
+#   v1.2  2020-02-10  charles.shih  Check VM state before executing
 
 # Load profile and verify the veribles
 source ./profile
 [ -z "$IMAGE_URL" ] && echo "\$IMAGE_URL is essintial but not existing, exit." && exit 1
 [ -z "$IMAGE_FILE" ] && echo "\$IMAGE_FILE is essintial but not existing, exit." && exit 1
 [ -z "$WORKSPACE" ] && echo "\$WORKSPACE is essintial but not existing, exit." && exit 1
+
+# Check VM state
+$(dirname $0)/check_vm_state.sh undefined
+if [ "$?" != "0" ]; then
+	$(dirname $0)/check_vm_state.sh shutoff
+	if [ "$?" != "0" ]; then
+		echo "ERROR: The VM must be stopped first."
+		exit 1
+	fi
+fi
 
 # Go to workspace
 mkdir -p $WORKSPACE && cd $WORKSPACE
@@ -27,7 +38,7 @@ else
 	if [ -f "$IMAGE_FILE" ]; then
 		read -t 30 -p "The image file already exists, overwirte [Y/n]? (in 30s) " answer
 		echo
-		[ "$answer" = "n" ] && exit 0		
+		[ "$answer" = "n" ] && exit 0
 	fi
 	cp -f ${IMAGE_FILE}.origin $IMAGE_FILE
 fi
