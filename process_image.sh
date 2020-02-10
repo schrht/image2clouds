@@ -6,6 +6,7 @@
 # History:
 #   v1.0    2020-01-19  charles.shih  Init version
 #   v1.0.1  2020-02-03  charles.shih  Bugfix for URL replacement
+#   v1.1    2020-02-10  charles.shih  Check VM state before executing
 
 # Load profile and verify the veribles
 source ./profile
@@ -15,6 +16,16 @@ source ./profile
 
 # Check utilities
 virt-customize -V >/dev/null || exit 1
+
+# Check VM state
+$(dirname $0)/check_vm_state.sh undefined
+if [ "$?" != "0" ]; then
+	$(dirname $0)/check_vm_state.sh shutoff
+	if [ "$?" != "0" ]; then
+		echo "ERROR: The VM must be stopped first."
+		exit 1
+	fi
+fi
 
 # Modify root password if configured
 if [ ! -z "$ROOT_PASSWD" ]; then
