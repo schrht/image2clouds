@@ -7,6 +7,7 @@
 #   v1.0    2020-01-19  charles.shih  Init version
 #   v1.0.1  2020-02-03  charles.shih  Bugfix for URL replacement
 #   v1.1    2020-02-10  charles.shih  Check VM state before executing
+#   v1.2    2020-02-10  charles.shih  Make this script can be running from anywhere
 
 # Load profile and verify the veribles
 source ./profile
@@ -50,7 +51,7 @@ virt-customize -a $IMAGE_FILE --ssh-inject root:string:"$(ssh-keygen -y -f $SSH_
 
 # Setup dnf repo
 echo -e "Setting up dnf repo..."
-cp ./source/rhel.repo $WORKSPACE/
+cp $(dirname $0)/source/rhel.repo $WORKSPACE/
 sed -i "s#{{REPO_BASEURL}}#$REPO_BASEURL#" $WORKSPACE/rhel.repo
 virt-customize -a $IMAGE_FILE --copy-in $WORKSPACE/rhel.repo:/etc/yum.repos.d/
 

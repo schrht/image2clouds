@@ -8,6 +8,7 @@
 #   v1.0.1  2020-02-03  charles.shih  Bugfix for IMAGE_LABEL replacement
 #   v1.1    2020-02-07  charles.shih  Dynamically determine the emulator
 #   v1.2    2020-02-10  charles.shih  Update VM state checking logic
+#   v1.3    2020-02-10  charles.shih  Make this script can be running from anywhere
 
 # Load profile and verify the veribles
 source ./profile
@@ -39,7 +40,7 @@ fi
 
 # Define the VM
 echo -e "\nDefining the VM..."
-cp ./source/template.xml $WORKSPACE/template.xml
+cp $(dirname $0)/source/template.xml $WORKSPACE/template.xml
 sed -i "s#{{DOMAIN_NAME}}#$IMAGE_LABEL#" $WORKSPACE/template.xml
 sed -i "s#{{IMAGE_FILE}}#$IMAGE_FILE#" $WORKSPACE/template.xml
 sed -i "s#{{EMULATOR}}#$qemu_kvm_bin#" $WORKSPACE/template.xml
