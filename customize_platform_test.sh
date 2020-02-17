@@ -11,6 +11,7 @@
 #   v1.3    2020-02-04  charles.shih  Change git pull as default
 #   v1.4    2020-02-05  charles.shih  Adjust image size to 8GiB
 #   v1.5    2020-02-10  charles.shih  Check VM state before executing
+#   v1.6    2020-02-17  charles.shih  Replace git repos and enable http.sslVerify
 
 # Load profile and verify the veribles
 source ./profile
@@ -48,7 +49,7 @@ function place_repo() {
 		[ "$answer" != "n" ] && bash -c "cd ./$repo_name && git pull"
 	else
 		echo "Cloning repo..."
-		git clone -c http.sslVerify=false $repo_url $repo_name || exit 1
+		git clone $repo_url $repo_name || exit 1
 	fi
 
 	echo "Placing repo..."
@@ -59,7 +60,7 @@ function place_repo() {
 
 place_repo platform-test git://git.engineering.redhat.com/users/darcari/platform-test.git
 place_repo linus git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-place_repo kernel-rhel https://code.engineering.redhat.com/gerrit/kernel-rhel
+place_repo kernel-ark https://gitlab.com/cki-project/kernel-ark.git
 
 # Reset SELinux label
 echo -e "\nResetting SELinux label..."
