@@ -73,7 +73,7 @@ For example:
 3. Process image for general cloud usage  
 `./process_image.sh`
 4. [Optional] Customize image for platform testing (1/2)  
-`./customize_image_plattest.sh`
+`./customize_platform_test.sh`
 5. [Optional] Run VM  
 `./define_vm.sh`  
 `./start_vm.sh`  
