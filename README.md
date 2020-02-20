@@ -1,4 +1,4 @@
-# golden_image_to_clouds
+# image2clouds
 Deal with Red Hat Enterprise Linux Golden Image for public cloud usage.
 
 # Usage
@@ -61,7 +61,13 @@ Please enter endpoint:http://oss-cn-beijing.aliyuncs.com
 `./create_profile.sh [URL of the Golden Image]`  
 URL example:  
 `http://download.eng.pek2.redhat.com/pub/nightly/RHEL-8.2.0-20200203.n.0/compose/BaseOS/x86_64/images/rhel-guest-image-8.2-181.x86_64.qcow2`  
-**Note:** Now you have a chance to review and update parameters in `./profile`.
+**Note:** Now you have a chance to review and update parameters in `./profile`.  
+For example:
+```
+./update_profile.sh ALIYUN_IMAGE_SIZE 100         # Update the qcow2 image disk size (GiB)
+./update_profile.sh ALIYUN_BUCKET rhel-platform   # Update the Bucket Name
+./update_profile.sh ALIYUN_REGION us-east-1       # Update the Bucket/Image Region 
+```
 2. Download golden image  
 `./download_image.sh`
 3. Process image for general cloud usage  
