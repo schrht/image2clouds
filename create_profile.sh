@@ -13,6 +13,7 @@
 #   v2.1  2020-02-03  charles.shih  Add additional configuration
 #   v2.2  2020-02-05  charles.shih  Add Aliyun parameters
 #   v2.3  2020-02-06  charles.shih  Fix a bug while profile does not exist
+#   v2.4  2020-04-27  charles.shih  Offer a chance to replace IMAGE LABEL
 
 pf=./profile
 
@@ -40,17 +41,32 @@ fi
 image_name=$(basename $image_url)
 repo_baseurl=$(echo $image_url | sed 's#/compose.*##')
 image_label=$(basename $repo_baseurl)
+
+# Update IMAGE LABEL with COMPOSE ID?
+compose_id=$(curl $repo_baseurl/COMPOSE_ID 2>/dev/null)
+if [ ! -z "$compose_id" ] && [ "$image_label" != "$compose_id" ]; then
+	echo -e "\nNotice: The IMAGE LABEL is different from the COMPOSE ID!"
+	echo -e "IMAGE LABEL: $image_label\nCOMPOSE ID : $compose_id"
+	read -t 30 -p "Do you want to overwrite IMAGE LABEL with COMPOSE ID [Y/n]? (in 30s) " answer
+	echo
+	if [ "$answer" != "N" ] && [ "$answer" != "n" ]; then
+		image_label=$compose_id
+		echo "Overwrited with \"$compose_id\"."
+	fi
+fi
+
 workspace="/var/lib/libvirt/images/$image_label"
 image_file="$workspace/$image_name"
 
 # Confirm the information
 echo -e "\nPlease confirm the following information:"
-echo -e "IMAGE URL:      $image_url"
-echo -e "IMAGE NAME:     $image_name"
-echo -e "IMAGE LABEL:    $image_label"
-echo -e "WORKSPACE:      $workspace"
-echo -e "IMAGE FILE:     $image_file"
-echo -e "REPO BASEURL:   $repo_baseurl"
+echo -e "IMAGE URL   : $image_url"
+echo -e "IMAGE NAME  : $image_name"
+echo -e "IMAGE LABEL : $image_label"
+echo -e "COMPOSE ID  : $compose_id"
+echo -e "WORKSPACE   : $workspace"
+echo -e "IMAGE FILE  : $image_file"
+echo -e "REPO BASEURL: $repo_baseurl"
 echo -e "\nIf you need a correction, press <Ctrl+C> in 30 seconds... Or press <Enter> to continue immediately..."
 read -t 30
 
