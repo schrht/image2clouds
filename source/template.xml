@@ -4,13 +4,14 @@
   <currentMemory unit='GiB'>2</currentMemory>
   <vcpu placement='static'>4</vcpu>
   <os>
-    <type arch='x86_64'>hvm</type>
+    <type arch='x86_64' machine='q35'>hvm</type>
   </os>
   <features>
     <acpi/>
     <apic/>
   </features>
-  <cpu mode='custom' match='exact'>
+  <cpu mode='host-model'>
+    <model fallback='forbid'/>
   </cpu>
   <on_poweroff>destroy</on_poweroff>
   <on_reboot>restart</on_reboot>
