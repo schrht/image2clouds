@@ -88,7 +88,9 @@ For example:
 `./upload_image.sh`
 9. [Optional] Change the image size from 40G to 100G (for platform_test)
 `./update_profile.sh ALIYUN_IMAGE_SIZE 100`
-10. Register the image on Alibaba Cloud
+10. [Optional] Specifiy an image name
+`./update_profile.sh ALIYUN_IMAGE_NAME RHEL-BYOS-IMAGE`
+11.  Register the image on Alibaba Cloud
 `./register_image.sh`
 
 ## Run all-in-one scripts

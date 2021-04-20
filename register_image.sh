@@ -16,16 +16,21 @@ source ./profile
 [ -z "$ALIYUN_IMAGE_SIZE" ] && echo "\$ALIYUN_IMAGE_SIZE is essintial but not existing, exit." && exit 1
 [ -z "$ALIYUN_IMAGE_DESC" ] && echo "\$ALIYUN_IMAGE_DESC is essintial but not existing, exit." && exit 1
 
+if [ -z "$ALIYUN_IMAGE_NAME" ]; then
+    echo "\$ALIYUN_IMAGE_NAME is not provisioned, using \$IMAGE_LABEL."
+    ALIYUN_IMAGE_NAME=$IMAGE_LABEL
+fi
+
 # Check utilities
 aliyun --version >/dev/null || exit 1
 
 # Upload the image
-echo "Register the image..."
+echo "Register image as \"$ALIYUN_IMAGE_NAME\"..."
 aliyun ecs ImportImage --RegionId $ALIYUN_REGION \
     --DiskDeviceMapping.1.OSSBucket $ALIYUN_BUCKET \
     --DiskDeviceMapping.1.OSSObject $ALIYUN_FOLDER/$IMAGE_NAME \
     --DiskDeviceMapping.1.DiskImageSize $ALIYUN_IMAGE_SIZE \
-    --OSType Linux --ImageName $IMAGE_LABEL \
+    --OSType Linux --ImageName $ALIYUN_IMAGE_NAME \
     --Architecture x86_64 --Platform RedHat \
     --Description "$ALIYUN_IMAGE_DESC"
 
