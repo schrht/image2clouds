@@ -49,6 +49,11 @@ fi
 
 virt-customize -a $IMAGE_FILE --ssh-inject root:string:"$(ssh-keygen -y -f $SSH_IDENTITY)"
 
+# Setup cloud-init
+echo -e "Setting up cloud-init..."
+cp $(dirname $0)/source/cloud.cfg $WORKSPACE/
+virt-customize -a $IMAGE_FILE --copy-in $WORKSPACE/cloud.cfg:/etc/cloud/
+
 # Setup dnf repo
 echo -e "Setting up dnf repo..."
 cp $(dirname $0)/source/rhel.repo $WORKSPACE/
