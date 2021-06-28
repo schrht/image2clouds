@@ -51,7 +51,13 @@ virt-customize -a $IMAGE_FILE --ssh-inject root:string:"$(ssh-keygen -y -f $SSH_
 
 # Setup cloud-init
 echo -e "Setting up cloud-init..."
-cp $(dirname $0)/source/cloud.cfg $WORKSPACE/
+rhel_ver=${IMAGE_LABEL:5:3}
+if [ "$(echo "$rhel_ver>=8.4" | bc)" = "0" ]; then
+	cp $(dirname $0)/source/cloud.cfg.aliyun_rhel77 $WORKSPACE/cloud.cfg
+else
+	cp $(dirname $0)/source/cloud.cfg.aliyun_rhel84 $WORKSPACE/cloud.cfg
+fi
+virt-customize -a $IMAGE_FILE --copy /etc/cloud/cloud.cfg:/etc/cloud/cloud.cfg.bak
 virt-customize -a $IMAGE_FILE --copy-in $WORKSPACE/cloud.cfg:/etc/cloud/
 
 # Setup dnf repo
