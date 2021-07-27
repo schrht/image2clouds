@@ -8,6 +8,7 @@
 #   v1.0.1  2020-02-03  charles.shih  Bugfix for URL replacement
 #   v1.1    2020-02-10  charles.shih  Check VM state before executing
 #   v1.2    2020-02-10  charles.shih  Make this script can be running from anywhere
+#   v1.3    2021-07-16  charles.shih  Append "PermitRootLogin yes" to sshd_config
 
 # Load profile and verify the veribles
 source ./profile
@@ -59,6 +60,13 @@ else
 fi
 virt-customize -a $IMAGE_FILE --copy /etc/cloud/cloud.cfg:/etc/cloud/cloud.cfg.bak
 virt-customize -a $IMAGE_FILE --copy-in $WORKSPACE/cloud.cfg:/etc/cloud/
+
+# Update sshd_config (RHEL9)
+rhel_ver=${IMAGE_LABEL:5:3}
+if [ "$(echo "$rhel_ver>=9.0" | bc)" != "0" ]; then
+	echo -e "Updating sshd_config..."
+	virt-customize -a $IMAGE_FILE --append-line "/etc/ssh/sshd_config:PermitRootLogin yes"
+fi
 
 # Setup dnf repo
 echo -e "Setting up dnf repo..."
