@@ -60,7 +60,7 @@ Please enter endpoint:http://oss-cn-beijing.aliyuncs.com
 1. Create profile  
 `./create_profile.sh [URL of the Golden Image]`  
 URL example:  
-`http://download.eng.pek2.redhat.com/pub/nightly/RHEL-8.2.0-20200203.n.0/compose/BaseOS/x86_64/images/rhel-guest-image-8.2-181.x86_64.qcow2`  
+`http://download.eng.pek2.redhat.com/rhel-9/nightly/RHEL-9-Beta/RHEL-9.0.0-20210713.3/compose/BaseOS/x86_64/images/rhel-guest-image-9.0-20210713.t.21.x86_64.qcow2`
 **Note:** Now you have a chance to review and update parameters in `./profile`.  
 For example:
 ```
