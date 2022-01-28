@@ -73,7 +73,6 @@ For example:
 ./update_profile.sh ALIYUN_IMAGE_SIZE 100         # Update the qcow2 image disk size (GiB)
 ./update_profile.sh ALIYUN_BUCKET rhel-platform   # Update the Bucket Name
 ./update_profile.sh ALIYUN_REGION us-east-1       # Update the Bucket/Image Region 
-./update_profile.sh ALIYUN_IMAGE_ARCH <x86_64/arm64/i386>  # Update the Image Arch
 ```
 
 2. Download golden image  
@@ -101,20 +100,18 @@ For example:
 8. Upload the image to Alibaba Cloud  
 `./upload_image.sh`
 
-9. [Optional] Change the image size from 40G to 100G (for platform_test)  
+9. [Optional] Customize image name, architecture, and size (in GB)
+`grep ALIYUN_IMAGE_NAME ./profile`  
+`./update_profile.sh ALIYUN_IMAGE_NAME <new_image_name>`
+`grep ALIYUN_IMAGE_ARCH ./profile`  
+`./update_profile.sh ALIYUN_IMAGE_ARCH <x86_64/arm64/i386>`
+`grep ALIYUN_IMAGE_SIZE ./profile`  
 `./update_profile.sh ALIYUN_IMAGE_SIZE 100`
 
-10. [Optional] Specify an image name other than IMAGE_LABEL  
-`grep IMAGE_LABEL ./profile`  
-`./update_profile.sh ALIYUN_IMAGE_NAME <new_image_name>`
-
-11. [Optional] Specify an image architecture other than x86_64  
-`./update_profile.sh ALIYUN_IMAGE_ARCH <x86_64/arm64/i386>`
-
-11.  Register the image on Alibaba Cloud  
+10.  Register the image on Alibaba Cloud  
 `./register_image.sh`
 
-## Run all-in-one scripts
+## The all-in-one scripts
 
 **Note:** It is recommended to configure your account to not ask for a sudo password.
 
