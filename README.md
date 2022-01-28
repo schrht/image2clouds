@@ -1,5 +1,5 @@
 # image2clouds
-Customize and upload Red Hat Enterprise Linux Golden Image to public clouds.  
+Customize Red Hat Enterprise Linux Golden Image and upload to public clouds (BYOS).  
 
 # Usage (Alibaba)
 
@@ -60,20 +60,12 @@ Please enter endpoint:http://oss-cn-beijing.aliyuncs.com
 ```
 
 ## Steps for image processing
+
 1. Create profile  
 `./create_profile.sh [RHEL guest image URL]`  
 
-URL example:  
-`http://download.eng.pek2.redhat.com/rhel-9/nightly/RHEL-9-Beta/RHEL-9.0.0-20210713.3/compose/BaseOS/x86_64/images/rhel-guest-image-9.0-20210713.t.21.x86_64.qcow2`
-
-**Note:** Now you have a chance to review and update parameters in `./profile`.
-
-For example:
-```
-./update_profile.sh ALIYUN_IMAGE_SIZE 100         # Update the qcow2 image disk size (GiB)
-./update_profile.sh ALIYUN_BUCKET rhel-platform   # Update the Bucket Name
-./update_profile.sh ALIYUN_REGION us-east-1       # Update the Bucket/Image Region 
-```
+Example:  
+`./create_profile.sh http://download.eng.pek2.redhat.com/rhel-8/nightly/RHEL-8/latest-RHEL-8.6/compose/BaseOS/x86_64/images/rhel-guest-image-8.6-1189.x86_64.qcow2`
 
 2. Download golden image  
 `./download_image.sh`
@@ -81,39 +73,43 @@ For example:
 3. Process image for general cloud usage  
 `./process_image.sh`
 
-4. [Optional] Customize image for platform testing (1/2)  
-`./customize_platform_test.sh`
+4. [Optional] Advance Usage  
 
-5. [Optional] Run VM  
-`./define_vm.sh`  
-`./start_vm.sh`  
-`./get_vm_info.sh`  
+    4.1 Run predefined scripts  
+    Customize image for platform testing (1/2)  
+    `./customize_platform_test.sh`
 
-6. [Optional] Customize image for platform testing (2/2)  
-`./vm_execute.sh 'cd /root/platform-test/init && ./run.sh'`  
-`./vm_execute.sh 'cd /root/platform-test && ./run.sh'`
+    4.2 Create VM environment  
+    `./define_vm.sh`  
+    `./start_vm.sh`  
+    `./get_vm_info.sh`  
 
-7. [Optional] Stop VM  
-`./stop_vm.sh`  
-`./undefine_vm.sh`
+    4.3 Run customized command inside VM  
+    Customize image for platform testing (2/2)  
+    `./vm_execute.sh 'cd /root/platform-test/init && ./run.sh'`  
+    `./vm_execute.sh 'cd /root/platform-test && ./run.sh'`
 
-8. Upload the image to Alibaba Cloud  
+    4.4 Destroy VM environment  
+    `./stop_vm.sh`  
+    `./undefine_vm.sh`
+
+5. Upload the image to Alibaba Cloud  
 `./upload_image.sh`
 
-9. [Optional] Customize image name, architecture, and size (in GB)
+6. [Optional] Customize image name, architecture, and size (in GB)  
 `grep ALIYUN_IMAGE_NAME ./profile`  
-`./update_profile.sh ALIYUN_IMAGE_NAME <new_image_name>`
+`./update_profile.sh ALIYUN_IMAGE_NAME <new_image_name>`  
 `grep ALIYUN_IMAGE_ARCH ./profile`  
-`./update_profile.sh ALIYUN_IMAGE_ARCH <x86_64/arm64/i386>`
+`./update_profile.sh ALIYUN_IMAGE_ARCH <x86_64/arm64/i386>`  
 `grep ALIYUN_IMAGE_SIZE ./profile`  
 `./update_profile.sh ALIYUN_IMAGE_SIZE 100`
 
-10.  Register the image on Alibaba Cloud  
+7.  Register the image on Alibaba Cloud  
 `./register_image.sh`
 
 ## The all-in-one scripts
 
-**Note:** It is recommended to configure your account to not ask for a sudo password.
+
 
 ### For Alibaba BYOS image validation
 `./alibaba_byos.sh <RHEL guest image URL>`
@@ -121,4 +117,4 @@ For example:
 ### For Platform testing  
 `./i2c_platform_test.sh <RHEL guest image URL>`
 
-
+**Note:** It is recommended to configure your account to not ask for a sudo password.
