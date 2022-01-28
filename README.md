@@ -1,11 +1,14 @@
 # image2clouds
-Deal with Red Hat Enterprise Linux Golden Image for public cloud usage.
+Customize and upload Red Hat Enterprise Linux Golden Image to public clouds.  
 
-# Usage
+# Usage (Alibaba)
 
 ## Prepare the environment
-You can run `./setup.sh` to prepare the environment, before that you need to get your AK/SK from Alibaba Cloud.
-Example: AK=LTAIxxxxxxxxxxxx SK=HOBIjfxxxxxxxxxxxxxxxxxxxxxxxx
+Run `./setup.sh` to setup the environment.
+
+Get "Access Key Id" and "Access Key Secret" from Alibaba before starting.
+
+Please follow the example for provisioning:  
 
 ```
 $ ./setup.sh 
@@ -58,7 +61,7 @@ Please enter endpoint:http://oss-cn-beijing.aliyuncs.com
 
 ## Steps for image processing
 1. Create profile  
-`./create_profile.sh [URL of the Golden Image]`  
+`./create_profile.sh [RHEL guest image URL]`  
 
 URL example:  
 `http://download.eng.pek2.redhat.com/rhel-9/nightly/RHEL-9-Beta/RHEL-9.0.0-20210713.3/compose/BaseOS/x86_64/images/rhel-guest-image-9.0-20210713.t.21.x86_64.qcow2`
@@ -70,6 +73,7 @@ For example:
 ./update_profile.sh ALIYUN_IMAGE_SIZE 100         # Update the qcow2 image disk size (GiB)
 ./update_profile.sh ALIYUN_BUCKET rhel-platform   # Update the Bucket Name
 ./update_profile.sh ALIYUN_REGION us-east-1       # Update the Bucket/Image Region 
+./update_profile.sh ALIYUN_IMAGE_ARCH <x86_64/arm64/i386>  # Update the Image Arch
 ```
 
 2. Download golden image  
@@ -104,7 +108,7 @@ For example:
 `grep IMAGE_LABEL ./profile`  
 `./update_profile.sh ALIYUN_IMAGE_NAME <new_image_name>`
 
-11. [Optional] Specify an image architecture other than x86_64 
+11. [Optional] Specify an image architecture other than x86_64  
 `./update_profile.sh ALIYUN_IMAGE_ARCH <x86_64/arm64/i386>`
 
 11.  Register the image on Alibaba Cloud  
@@ -115,9 +119,9 @@ For example:
 **Note:** It is recommended to configure your account to not ask for a sudo password.
 
 ### For Alibaba BYOS image validation
-`./alibaba_byos.sh <URL of the Golden Image>`
+`./alibaba_byos.sh <RHEL guest image URL>`
 
 ### For Platform testing  
-`./i2c_platform_test.sh <URL of the Golden Image>`
+`./i2c_platform_test.sh <RHEL guest image URL>`
 
 
