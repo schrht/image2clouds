@@ -41,6 +41,7 @@ fi
 image_name=$(basename $image_url)
 repo_baseurl=$(echo $image_url | sed 's#/compose.*##')
 image_label=$(basename $repo_baseurl)
+image_arch=$(echo $image_url | sed 's#/images.*##' | xargs basename)
 
 # Update IMAGE LABEL with COMPOSE ID?
 compose_id=$(curl $repo_baseurl/COMPOSE_ID 2>/dev/null)
@@ -55,6 +56,14 @@ if [ ! -z "$compose_id" ] && [ "$image_label" != "$compose_id" ]; then
 	fi
 fi
 
+# Get ALIYUN_IMAGE_ARCH
+if [ "$image_arch" = "aarch64" ]; then
+	aliyun_image_arch=arm64
+else
+	aliyun_image_arch=x86_64
+fi
+
+# Get parameters
 workspace="/var/lib/libvirt/images/$image_label"
 image_file="$workspace/$image_name"
 
@@ -62,6 +71,7 @@ image_file="$workspace/$image_name"
 echo -e "\nPlease confirm the following information:"
 echo -e "IMAGE URL   : $image_url"
 echo -e "IMAGE NAME  : $image_name"
+echo -e "IMAGE ARCH  : $image_arch"
 echo -e "IMAGE LABEL : $image_label"
 echo -e "COMPOSE ID  : $compose_id"
 echo -e "WORKSPACE   : $workspace"
@@ -75,6 +85,7 @@ echo -e "Writing to $pf..."
 $(dirname $0)/update_profile.sh IMAGE_URL $image_url
 $(dirname $0)/update_profile.sh IMAGE_NAME $image_name
 $(dirname $0)/update_profile.sh IMAGE_LABEL $image_label
+$(dirname $0)/update_profile.sh IMAGE_ARCH $image_arch
 $(dirname $0)/update_profile.sh WORKSPACE $workspace
 $(dirname $0)/update_profile.sh IMAGE_FILE $image_file
 $(dirname $0)/update_profile.sh REPO_BASEURL $repo_baseurl
@@ -87,7 +98,10 @@ $(dirname $0)/update_profile.sh SSH_IDENTITY
 $(dirname $0)/update_profile.sh ALIYUN_REGION cn-beijing
 $(dirname $0)/update_profile.sh ALIYUN_BUCKET rhel-test
 $(dirname $0)/update_profile.sh ALIYUN_FOLDER $image_label
+$(dirname $0)/update_profile.sh ALIYUN_IMAGE_NAME $image_label
+$(dirname $0)/update_profile.sh ALIYUN_IMAGE_ARCH $aliyun_image_arch
 $(dirname $0)/update_profile.sh ALIYUN_IMAGE_SIZE 40
 $(dirname $0)/update_profile.sh ALIYUN_IMAGE_DESC '"Created by image2clouds."'
 
 exit 0
+
