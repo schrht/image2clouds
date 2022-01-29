@@ -13,7 +13,7 @@ set -e
 
 if [ -z "$1" ]; then
 	echo -e "Usage:\n$0 <URL of the RHEL Golden Image>"
-	echo -e "Example:\n$0 http://download.eng.pek2.redhat.com/rhel-9/nightly/RHEL-9/latest-RHEL-9.0/compose/BaseOS/x86_64/images/rhel-guest-image-9.0-20220127.4.x86_64.qcow2"
+	echo -e "Example:\n$0 http://download.xxx.xxxxxx.com/rhel-x/nightly/RHEL-x/xxxxxxxxxxxx/compose/BaseOS/xxxxxx/images/rhel-guest-image-xxxx-xxxxxxxx.x.xxxxxx.qcow2"
 	exit 1
 fi
 

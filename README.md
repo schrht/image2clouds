@@ -65,7 +65,7 @@ Please enter endpoint:http://oss-cn-beijing.aliyuncs.com
 `./create_profile.sh [RHEL guest image URL]`  
 
 Example:  
-`./create_profile.sh http://download.eng.pek2.redhat.com/rhel-8/nightly/RHEL-8/latest-RHEL-8.6/compose/BaseOS/x86_64/images/rhel-guest-image-8.6-1189.x86_64.qcow2`
+`./create_profile.sh http://download.xxx.xxxxxx.com/rhel-x/nightly/RHEL-x/xxxxxxxxxxxx/compose/BaseOS/xxxxxx/images/rhel-guest-image-xxxx-xxxxxxxx.x.xxxxxx.qcow2`
 
 2. Download golden image  
 `./download_image.sh`
