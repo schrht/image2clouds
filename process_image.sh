@@ -15,6 +15,7 @@ source ./profile
 [ -z "$WORKSPACE" ] && echo "\$WORKSPACE is essintial but not existing, exit." && exit 1
 [ -z "$IMAGE_FILE" ] && echo "\$IMAGE_FILE is essintial but not existing, exit." && exit 1
 [ -z "$REPO_BASEURL" ] && echo "\$REPO_BASEURL is essintial but not existing, exit." && exit 1
+[ -z "$IMAGE_ARCH" ] && echo "\$IMAGE_ARCH is essintial but not existing, exit." && exit 1
 
 # Check utilities
 virt-customize -V >/dev/null || exit 1
@@ -72,6 +73,7 @@ fi
 echo -e "Setting up dnf repo..."
 cp $(dirname $0)/source/rhel.repo $WORKSPACE/
 sed -i "s#{{REPO_BASEURL}}#$REPO_BASEURL#" $WORKSPACE/rhel.repo
+sed -i "s#{{IMAGE_ARCH}}#$IMAGE_ARCH#" $WORKSPACE/rhel.repo
 virt-customize -a $IMAGE_FILE --copy-in $WORKSPACE/rhel.repo:/etc/yum.repos.d/
 
 # Reset SELinux label
