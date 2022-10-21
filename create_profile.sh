@@ -98,7 +98,7 @@ $(dirname $0)/update_profile.sh SSH_IDENTITY
 $(dirname $0)/update_profile.sh ALIYUN_REGION cn-beijing
 $(dirname $0)/update_profile.sh ALIYUN_BUCKET rhel-test
 $(dirname $0)/update_profile.sh ALIYUN_FOLDER $image_label
-$(dirname $0)/update_profile.sh ALIYUN_IMAGE_NAME $image_label
+$(dirname $0)/update_profile.sh ALIYUN_IMAGE_NAME $image_label-$aliyun_image_arch
 $(dirname $0)/update_profile.sh ALIYUN_IMAGE_ARCH $aliyun_image_arch
 $(dirname $0)/update_profile.sh ALIYUN_IMAGE_SIZE 40
 $(dirname $0)/update_profile.sh ALIYUN_IMAGE_DESC '"Created by image2clouds."'

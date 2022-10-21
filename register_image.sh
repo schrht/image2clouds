@@ -15,10 +15,11 @@ source ./profile
 [ -z "$IMAGE_LABEL" ] && echo "\$IMAGE_LABEL is essintial but not existing, exit." && exit 1
 [ -z "$ALIYUN_IMAGE_SIZE" ] && echo "\$ALIYUN_IMAGE_SIZE is essintial but not existing, exit." && exit 1
 [ -z "$ALIYUN_IMAGE_DESC" ] && echo "\$ALIYUN_IMAGE_DESC is essintial but not existing, exit." && exit 1
+[ -z "$IMAGE_ARCH" ] && echo "\$IMAGE_ARCH is essintial but not existing, exit." && exit 1
 
 if [ -z "$ALIYUN_IMAGE_NAME" ]; then
     echo "\$ALIYUN_IMAGE_NAME is not provisioned, using \$IMAGE_LABEL."
-    ALIYUN_IMAGE_NAME=$IMAGE_LABEL
+    ALIYUN_IMAGE_NAME=$IMAGE_LABEL-$IMAGE_ARCH
 fi
 
 # Check utilities
