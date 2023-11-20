@@ -1,34 +1,40 @@
 users:
- - default
+   - default
 
 user:
     name: root
     lock_passwd: False
 
-disable_root: 0
+# If this is set, 'root' will not be able to ssh in and they
+# will get a message to login instead as the above $user
+disable_root: false
+
+# This will cause the set+update hostname module to not operate (if true)
 preserve_hostname: false
 
-mount_default_fields: [~, ~, 'auto', 'defaults,nofail,x-systemd.requires=cloud-init.service', '0', '2']
-resize_rootfs_tmp: /dev
-ssh_deletekeys:   1
-ssh_genkeytypes:  ['rsa', 'ecdsa', 'ed25519']
 syslog_fix_perms: root:root
-disable_vmware_customization: false
+
+ssh_deletekeys: true
+ssh_genkeytypes: ['rsa', 'ecdsa', 'ed25519']
 
 datasource_list: [ AliYun ]
+
+# Example datasource config
 datasource:
     AliYun:
         support_xen: false
         timeout: 5 # (defaults to 50 seconds)
         max_wait: 60 # (defaults to 120 seconds)
+#      metadata_urls: [ 'blah.com' ]
 
+# The modules that run in the 'init' stageaml
 cloud_init_modules:
- - disk_setup
  - migrator
+ - seed_random
  - bootcmd
  - write-files
- - growpart
- - resizefs
+ - [ growpart, once-per-instance ]
+ - [ resizefs, once-per-instance ]
  - set_hostname
  - update_hostname
  - update_etc_hosts
@@ -36,12 +42,12 @@ cloud_init_modules:
  - users-groups
  - ssh
 
+# The modules that run in the 'config' stage
 cloud_config_modules:
+ - disk_setup
  - mounts
  - locale
  - set-passwords
- - rh_subscription
- - yum-add-repo
  - package-update-upgrade-install
  - timezone
  - puppet
@@ -51,8 +57,10 @@ cloud_config_modules:
  - disable-ec2-metadata
  - runcmd
 
+# The modules that run in the 'final' stage
 cloud_final_modules:
  - rightscale_userdata
+ - scripts-vendor
  - scripts-per-once
  - scripts-per-boot
  - scripts-per-instance
@@ -63,12 +71,14 @@ cloud_final_modules:
  - final-message
  - power-state-change
 
+# System and/or distro specific settings
+# (not accessible to handlers/transforms)
 system_info:
-  distro: rhel
-  paths:
-    cloud_dir: /var/lib/cloud
-    templates_dir: /etc/cloud/templates
-  ssh_svcname: sshd
-
-# vim:syntax=yaml
+   # This will affect which distro class gets used
+   distro: rhel
+   paths:
+      cloud_dir: /var/lib/cloud/
+      templates_dir: /etc/cloud/templates/
+      upstart_dir: /etc/init/
+   ssh_svcname: sshd
 
